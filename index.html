@@ -76,6 +76,13 @@
         <dt>V</dt><dd>Вид от первого или третьего лица</dd>
         <dt>Esc, M</dt><dd>Пауза, звук</dd>
       </dl>
+      <h3>Звук</h3>
+      <div class="volumes">
+        <label class="setting"><span>Общая громкость</span><input type="range" min="0" max="1" step="0.05" data-vol="master"></label>
+        <label class="setting"><span>Эффекты и клинки</span><input type="range" min="0" max="1" step="0.05" data-vol="sfx"></label>
+        <label class="setting"><span>Окружение (дождь, гром)</span><input type="range" min="0" max="1" step="0.05" data-vol="amb"></label>
+        <label class="setting"><span>Музыка</span><input type="range" min="0" max="1" step="0.05" data-vol="music"></label>
+      </div>
       <h3>Графика</h3>
       <div class="seg" role="radiogroup" aria-label="Качество графики">
         <button class="seg-btn" role="radio" data-quality="low">Низкое</button>
@@ -139,6 +146,7 @@
         <button data-tab="head" role="tab">Лицо и волосы</button>
         <button data-tab="clothes" role="tab">Одежда</button>
         <button data-tab="blade" role="tab">Клинок</button>
+        <button data-tab="style" role="tab">Стиль боя</button>
       </div>
       <div id="custom-fields"></div>
       <p class="hint-text small">Перетаскивай персонажа мышью, колесо — приблизить.</p>
@@ -197,12 +205,14 @@
   <script src="src/utils.js"></script>
   <script src="src/arena.js"></script>
   <script src="src/poses.js"></script>
+  <script src="src/styles.js"></script>
   <script src="src/fighter.js"></script>
   <script src="src/ai.js"></script>
   <script src="src/game.js"></script>
   <script src="src/net.js"></script>
   <script src="src/online.js"></script>
   <script src="src/audio.js"></script>
+  <script src="src/music.js"></script>
   <script src="src/input.js"></script>
   <script src="src/world.js"></script>
   <script src="src/char/sdf.js"></script>
