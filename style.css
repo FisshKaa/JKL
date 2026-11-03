@@ -229,3 +229,8 @@ h1 .outline {
 .join-row { display: flex; gap: 8px; }
 .join-row .btn { flex: none; }
 #net-code-big { letter-spacing: 0.15em; text-align: center; }
+
+.turn-box { display: flex; flex-direction: column; gap: 8px; color: #c3c8e6; font-size: 14px; }
+.turn-box[open] { display: flex; }
+.turn-box summary { cursor: pointer; color: var(--muted); font-weight: 600; }
+.turn-box > * + * { margin-top: 8px; }
