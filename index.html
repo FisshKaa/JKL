@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen Duel — дуэль на энергоклинках</title>
+  <meta name="description" content="Браузерная дуэль на энергоклинках с физической боёвкой: клинок следует за мышью, сила удара зависит от скорости взмаха.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <main id="menu" class="screen visible">
+    <div class="menu-inner">
+      <header class="brand">
+        <h1>Lumen<br><span class="outline">Duel</span></h1>
+        <p class="tagline">Клинок идёт за мышью. Чем резче взмах, тем сильнее удар. Подставь лезвие под чужое — это блок. Встреть удар встречным движением — это парирование.</p>
+      </header>
+
+      <nav class="actions" id="main-actions">
+        <button class="btn primary" data-action="vsbot">Бой с ботом</button>
+        <button class="btn" disabled>Онлайн 1 на 1 <span class="soon">в разработке</span></button>
+        <button class="btn quiet" data-action="controls">Управление</button>
+      </nav>
+
+      <section class="actions hidden" id="difficulty" aria-label="Выбор соперника">
+        <p class="hint-text">Выбери соперника</p>
+        <button class="diff" data-level="easy"><b>Ученик</b><span>Медленно реагирует, редко блокирует</span></button>
+        <button class="diff" data-level="normal"><b>Рыцарь</b><span>Держит дистанцию, парирует, толкает к краю</span></button>
+        <button class="diff" data-level="hard"><b>Мастер</b><span>Почти не пропускает и наказывает за ошибки</span></button>
+        <button class="btn quiet small" data-action="back">Назад</button>
+      </section>
+
+      <div class="color-row">
+        <span class="hint-text">Твой клинок</span>
+        <div id="swatches" role="radiogroup" aria-label="Цвет клинка"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="controls" class="screen modal" role="dialog" aria-label="Управление">
+    <div class="panel">
+      <h2>Управление</h2>
+      <dl class="keys">
+        <dt>Мышь</dt><dd>Направление клинка. Резкое движение — сильный удар</dd>
+        <dt>ЛКМ, держать</dt><dd>Ярость: клинок быстрее и бьёт тяжелее, но тратит фокус</dd>
+        <dt>ПКМ или E</dt><dd>Импульс: отталкивает соперника, отлично работает у края</dd>
+        <dt>A, D</dt><dd>Движение</dd>
+        <dt>W или пробел</dt><dd>Прыжок, в воздухе можно прыгнуть ещё раз</dd>
+        <dt>S</dt><dd>Спрыгнуть с уступа</dd>
+        <dt>Shift</dt><dd>Рывок</dd>
+        <dt>Esc, M</dt><dd>Пауза, звук</dd>
+      </dl>
+      <h3>Как устроен бой</h3>
+      <p>Урон зависит от скорости лезвия в момент касания: медленное касание лишь прожигает, быстрый взмах сносит до половины здоровья, удар в голову сильнее.</p>
+      <p>Каждый принятый блок стоит фокуса. Если фокус кончится на блоке, защита пробита и ты открыт. Встречный взмах против удара — парирование, оно оглушает атакующего.</p>
+      <p>Раунд выигрывает тот, кто победил соперника или сбросил его с платформы. Матч до трёх побед.</p>
+      <button class="btn primary" data-action="close">Понятно</button>
+    </div>
+  </div>
+
+  <div id="pause" class="screen modal" role="dialog" aria-label="Пауза">
+    <div class="panel narrow">
+      <h2>Пауза</h2>
+      <button class="btn primary" data-action="resume">Продолжить</button>
+      <button class="btn" data-action="restart">Начать заново</button>
+      <button class="btn quiet" data-action="tomenu">Выйти в меню</button>
+    </div>
+  </div>
+
+  <div id="result" class="screen modal" role="dialog" aria-label="Итог матча">
+    <div class="panel narrow">
+      <h2 id="result-title">Победа</h2>
+      <p id="result-score" class="score">3 : 1</p>
+      <button class="btn primary" data-action="rematch">Реванш</button>
+      <button class="btn quiet" data-action="tomenu">Выйти в меню</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Мышь ведёт клинок, ЛКМ — ярость, ПКМ — импульс, Shift — рывок</div>
+
+  <script src="src/config.js"></script>
+  <script src="src/utils.js"></script>
+  <script src="src/arena.js"></script>
+  <script src="src/fighter.js"></script>
+  <script src="src/effects.js"></script>
+  <script src="src/audio.js"></script>
+  <script src="src/ai.js"></script>
+  <script src="src/input.js"></script>
+  <script src="src/render.js"></script>
+  <script src="src/game.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
