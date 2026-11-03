@@ -165,3 +165,11 @@ h1 .outline {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+.seg { display: flex; gap: 4px; background: rgba(255, 255, 255, 0.05); border-radius: 999px; padding: 3px; }
+.seg-btn {
+  font: 600 13px Manrope, sans-serif; color: var(--muted);
+  background: transparent; border: 0; border-radius: 999px; padding: 6px 14px; cursor: pointer;
+}
+.seg-btn[aria-checked="true"] { background: var(--accent); color: #05060f; }
+.seg-btn:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
