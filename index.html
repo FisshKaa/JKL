@@ -130,7 +130,17 @@
           <button class="btn" data-action="net-copy">Копировать</button>
         </div>
       </div>
-      <p id="net-status" class="hint-text"></p>
+      <p id="net-status" class="hint-text" aria-live="polite"></p>
+      <details class="turn-box">
+        <summary>Если не соединяется</summary>
+        <p class="hint-text small">Обычно мешает строгий NAT (мобильный интернет, офисные сети). Тогда нужен свой TURN-ретранслятор: бесплатный доступ дают, например, Metered или Twilio. Вставьте данные сюда — их нужно указать обоим игрокам.</p>
+        <input id="turn-urls" class="text-input" placeholder="turn:адрес:3478, turns:адрес:443" autocomplete="off" spellcheck="false">
+        <div class="join-row">
+          <input id="turn-user" class="text-input" placeholder="Логин" autocomplete="off">
+          <input id="turn-pass" class="text-input" placeholder="Пароль" type="password" autocomplete="off">
+        </div>
+        <button class="btn" data-action="turn-save">Сохранить</button>
+      </details>
       <button class="btn quiet" data-action="net-cancel">Назад</button>
     </div>
   </div>
