@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lumen Duel — дуэль на энергоклинках от первого лица</title>
+  <meta name="description" content="Браузерная дуэль от первого лица: удары с четырёх сторон, направленный блок, мастерский блок, финты и клинч.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚔️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;800&family=Manrope:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <canvas id="hud"></canvas>
+
+  <main id="menu" class="screen visible">
+    <div class="menu-inner">
+      <header class="brand">
+        <h1>Lumen<br><span class="outline">Duel</span></h1>
+        <p class="tagline">Дуэль на энергоклинках от первого лица. Веди мышь к нужной стороне звезды, бей с четырёх направлений, ставь блок туда, откуда летит удар, и продавливай соперника в клинче.</p>
+      </header>
+
+      <nav class="actions" id="main-actions">
+        <button class="btn primary" data-action="vsbot">Бой с ботом</button>
+        <button class="btn" disabled>Онлайн 1 на 1 <span class="soon">в разработке</span></button>
+        <button class="btn quiet" data-action="controls">Управление и приёмы</button>
+      </nav>
+
+      <section class="actions hidden" id="difficulty" aria-label="Выбор соперника">
+        <p class="hint-text">Выбери соперника</p>
+        <button class="diff" data-level="easy"><b>Ученик</b><span>Медленные замахи, часто ошибается со стороной блока</span></button>
+        <button class="diff" data-level="normal"><b>Рыцарь</b><span>Читает удары, бьёт в открытую сторону, иногда финтит</span></button>
+        <button class="diff" data-level="hard"><b>Мастер</b><span>Ловит на мастерский блок, финтит и лезет в клинч</span></button>
+        <button class="btn quiet small" data-action="back">Назад</button>
+      </section>
+
+      <div class="color-row">
+        <span class="hint-text">Твой клинок</span>
+        <div id="swatches" role="radiogroup" aria-label="Цвет клинка"></div>
+      </div>
+    </div>
+  </main>
+
+  <div id="controls" class="screen modal" role="dialog" aria-label="Управление">
+    <div class="panel">
+      <h2>Управление</h2>
+      <dl class="keys">
+        <dt>Мышь</dt><dd>Выбор стороны на звезде: верх, право, низ, лево. Это и стойка, и направление удара</dd>
+        <dt>ЛКМ</dt><dd>Удар с выбранной стороны. Ещё раз во время отката — комбо</dd>
+        <dt>ПКМ, держать</dt><dd>Блок на выбранной стороне</dd>
+        <dt>ПКМ во время замаха</dt><dd>Финт: отмена удара</dd>
+        <dt>W A S D</dt><dd>Движение, захват цели держит тебя лицом к сопернику</dd>
+        <dt>Пробел</dt><dd>Уклонение</dd>
+        <dt>F</dt><dd>Войти в клинч вплотную</dd>
+        <dt>Q</dt><dd>Захват цели вкл/выкл</dd>
+        <dt>Esc, M</dt><dd>Пауза, звук</dd>
+      </dl>
+      <h3>Как читать звезду</h3>
+      <p>Твоя стойка подсвечена цветом твоего клинка. Когда соперник замахивается, сторона, откуда прилетит удар, заливается красным. Переведи мышь на неё и держи ПКМ. Чёрточка у кончика стрелки показывает, где стоит его защита: туда бить бесполезно.</p>
+      <h3>Мастерский блок</h3>
+      <p>Если поставить блок на нужную сторону в последний момент, когда красная стрелка вспыхнула светлым, соперник раскрывается, а твой следующий удар выходит быстрым и бьёт в полтора раза сильнее.</p>
+      <h3>Клинч</h3>
+      <p>Клинки сцепляются, если два удара встретились в одной линии, если удар приняли в блок вплотную или если кто-то нажал F. Кликай ЛКМ быстрее соперника: проигравший отлетает и открыт для удара. Пробелом можно разорвать клинч за выносливость.</p>
+      <button class="btn primary" data-action="close">Понятно</button>
+    </div>
+  </div>
+
+  <div id="pause" class="screen modal" role="dialog" aria-label="Пауза">
+    <div class="panel narrow">
+      <h2>Пауза</h2>
+      <button class="btn primary" data-action="resume">Продолжить</button>
+      <button class="btn" data-action="restart">Начать заново</button>
+      <button class="btn quiet" data-action="tomenu">Выйти в меню</button>
+    </div>
+  </div>
+
+  <div id="result" class="screen modal" role="dialog" aria-label="Итог матча">
+    <div class="panel narrow">
+      <h2 id="result-title">Победа</h2>
+      <p id="result-score" class="score">2 : 1</p>
+      <button class="btn primary" data-action="rematch">Реванш</button>
+      <button class="btn quiet" data-action="tomenu">Выйти в меню</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Веди мышь к стороне звезды, ЛКМ — удар, держи ПКМ — блок туда, где красное</div>
+
+  <script src="lib/three.min.js"></script>
+  <script src="lib/CopyShader.js"></script>
+  <script src="lib/LuminosityHighPassShader.js"></script>
+  <script src="lib/EffectComposer.js"></script>
+  <script src="lib/RenderPass.js"></script>
+  <script src="lib/ShaderPass.js"></script>
+  <script src="lib/UnrealBloomPass.js"></script>
+
+  <script src="src/config.js"></script>
+  <script src="src/utils.js"></script>
+  <script src="src/poses.js"></script>
+  <script src="src/fighter.js"></script>
+  <script src="src/ai.js"></script>
+  <script src="src/game.js"></script>
+  <script src="src/audio.js"></script>
+  <script src="src/input.js"></script>
+  <script src="src/world.js"></script>
+  <script src="src/models.js"></script>
+  <script src="src/effects3d.js"></script>
+  <script src="src/hud.js"></script>
+  <script src="src/view.js"></script>
+  <script src="src/main.js"></script>
+</body>
+</html>
