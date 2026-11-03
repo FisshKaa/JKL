@@ -215,3 +215,17 @@ h1 .outline {
 .loading-box { display: flex; align-items: center; gap: 14px; font: 600 16px Manrope, sans-serif; background: rgba(12, 12, 30, 0.9); padding: 16px 22px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, 0.1); }
 .spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.2); border-top-color: var(--accent); animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Онлайн */
+.online-panel { text-align: left !important; }
+.online-panel .btn { justify-content: center; text-align: center; }
+.text-input {
+  font: 600 15px Manrope, sans-serif; color: var(--ink);
+  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px; padding: 11px 12px; width: 100%; min-width: 0;
+}
+.text-input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+#net-code { text-transform: uppercase; letter-spacing: 0.2em; }
+.join-row { display: flex; gap: 8px; }
+.join-row .btn { flex: none; }
+#net-code-big { letter-spacing: 0.15em; text-align: center; }
