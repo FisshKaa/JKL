@@ -25,7 +25,8 @@
       <nav class="actions" id="main-actions">
         <button class="btn primary" data-action="vsbot">Бой с ботом</button>
         <button class="btn" disabled>Онлайн 1 на 1 <span class="soon">в разработке</span></button>
-        <button class="btn quiet" data-action="controls">Управление и приёмы</button>
+        <button class="btn" data-action="custom">Персонаж</button>
+        <button class="btn quiet" data-action="controls">Управление и настройки</button>
       </nav>
 
       <section class="actions hidden" id="difficulty" aria-label="Выбор соперника">
@@ -40,13 +41,7 @@
         <span class="hint-text">Твой клинок</span>
         <div id="swatches" role="radiogroup" aria-label="Цвет клинка"></div>
       </div>
-      <div class="color-row">
-        <span class="hint-text">Одежда</span>
-        <div class="seg" role="radiogroup" aria-label="Одежда">
-          <button class="seg-btn" role="radio" data-outfit="robe">Мантия</button>
-          <button class="seg-btn" role="radio" data-outfit="cloak">Плащ</button>
-        </div>
-      </div>
+
     </div>
   </main>
 
@@ -54,18 +49,25 @@
     <div class="panel">
       <h2>Управление</h2>
       <dl class="keys">
-        <dt>Мышь</dt><dd>Обзор. Резкий рывок мыши в сторону выбирает сторону удара на кресте</dd>
+        <dt>Мышь</dt><dd>Обзор. Куда качнул мышь — та сторона удара и выбрана: вверх, вправо, вниз-вправо, вниз-влево, влево</dd>
         <dt>Q или колесо</dt><dd>Захват цели: камера держит противника, а мышь ведёт курсор внутри креста</dd>
         <dt>ЛКМ</dt><dd>Удар с выбранной стороны. Ещё раз во время отката — комбо</dd>
         <dt>ПКМ, держать</dt><dd>Блок на выбранной стороне. Нажать во время своего замаха — финт</dd>
         <dt>W A S D</dt><dd>Движение</dd>
         <dt>Пробел</dt><dd>Прыжок. Держи — силовой прыжок выше. В воздухе ещё раз — сальто по направлению движения. У стены — отскок от стены</dd>
-        <dt>Прыжок к уступу</dt><dd>Держи направление на уступ, и боец подтянется сам</dd>
+        <dt>Прыжок к уступу</dt><dd>Держи направление на уступ. Низкий боец перемахнёт, за высокий зацепится руками</dd>
+        <dt>В висе</dt><dd>W — подтянуться, пробел — оттолкнуться сальто назад (с A или D — вбок), A и D — перехват вдоль края, S — отпустить</dd>
         <dt>Shift</dt><dd>Уклонение</dd>
         <dt>F</dt><dd>Войти в клинч вплотную</dd>
         <dt>V</dt><dd>Вид от первого или третьего лица</dd>
         <dt>Esc, M</dt><dd>Пауза, звук</dd>
       </dl>
+      <h3>Настройки</h3>
+      <label class="setting">
+        <span>Порог выбора стороны: <b id="flick-value">8 пикс.</b></span>
+        <input id="flick" type="range" min="3" max="30" step="1" value="8">
+        <small>Меньше — сторона меняется от лёгкого наклона мыши. Больше — нужен заметный рывок, зато обзор не сбивает стойку.</small>
+      </label>
       <h3>Как читать крест</h3>
       <p>У креста пять сторон: верх, право, низ-право, низ-лево и лево. Твоя сторона подсвечена цветом клинка. Когда соперник замахивается, сторона, откуда прилетит удар, заливается красным. Выбери её и держи ПКМ. Чёрточка у кончика стрелки показывает, где стоит его защита: туда бить бесполезно.</p>
       <h3>Мастерский блок</h3>
@@ -96,7 +98,23 @@
     </div>
   </div>
 
-  <div id="toast" class="toast">Рывок мышью выбирает сторону, ЛКМ — удар, ПКМ — блок, Q — захват цели, V — вид</div>
+  <div id="custom" class="screen" role="dialog" aria-label="Персонаж">
+    <aside class="custom-panel">
+      <h2>Персонаж</h2>
+      <div class="tabs" role="tablist">
+        <button data-tab="body" role="tab">Тело</button>
+        <button data-tab="head" role="tab">Лицо и волосы</button>
+        <button data-tab="clothes" role="tab">Одежда</button>
+      </div>
+      <div id="custom-fields"></div>
+      <p class="hint-text small">Перетаскивай персонажа мышью, колесо — приблизить.</p>
+      <button class="btn primary" data-action="custom-done">Готово</button>
+    </aside>
+  </div>
+
+  <div id="loading" class="screen" aria-live="polite"><div class="loading-box"><span class="spinner"></span><span id="loading-text">Собираем бойцов…</span></div></div>
+
+  <div id="toast" class="toast">Качни мышь в сторону удара, ЛКМ — удар, ПКМ — блок, Q — захват цели, V — вид</div>
 
   <script src="lib/three.min.js"></script>
   <script src="lib/CopyShader.js"></script>
@@ -116,7 +134,12 @@
   <script src="src/audio.js"></script>
   <script src="src/input.js"></script>
   <script src="src/world.js"></script>
-  <script src="src/models.js"></script>
+  <script src="src/char/sdf.js"></script>
+  <script src="src/char/rig.js"></script>
+  <script src="src/char/chargen.js"></script>
+  <script src="src/char/blade.js"></script>
+  <script src="src/char/cloth.js"></script>
+  <script src="src/char/character.js"></script>
   <script src="src/effects3d.js"></script>
   <script src="src/hud.js"></script>
   <script src="src/view.js"></script>
