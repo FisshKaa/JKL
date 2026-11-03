@@ -24,7 +24,7 @@
 
       <nav class="actions" id="main-actions">
         <button class="btn primary" data-action="vsbot">Бой с ботом</button>
-        <button class="btn" disabled>Онлайн 1 на 1 <span class="soon">в разработке</span></button>
+        <button class="btn" data-action="online">Онлайн 1 на 1</button>
         <button class="btn" data-action="custom">Персонаж</button>
         <button class="btn quiet" data-action="controls">Управление и настройки</button>
       </nav>
@@ -79,7 +79,7 @@
 
   <div id="pause" class="screen modal" role="dialog" aria-label="Пауза">
     <div class="panel narrow">
-      <h2>Пауза</h2>
+      <h2 id="pause-title">Пауза</h2>
       <button class="btn primary" data-action="resume">Продолжить</button>
       <button class="btn" data-action="restart">Начать заново</button>
       <button class="btn quiet" data-action="tomenu">Выйти в меню</button>
@@ -90,6 +90,7 @@
     <div class="panel narrow">
       <h2 id="result-title">Победа</h2>
       <p id="result-score" class="score">2 : 1</p>
+      <p id="rematch-note" class="hint-text"></p>
       <button class="btn primary" data-action="rematch">Реванш</button>
       <button class="btn quiet" data-action="tomenu">Выйти в меню</button>
     </div>
@@ -110,6 +111,30 @@
     </aside>
   </div>
 
+  <div id="online" class="screen modal" role="dialog" aria-label="Онлайн 1 на 1">
+    <div class="panel narrow online-panel">
+      <h2>Онлайн 1 на 1</h2>
+      <label class="setting"><span>Твоё имя</span><input id="net-name" class="text-input" maxlength="16" placeholder="Игрок"></label>
+      <div id="net-choose" class="actions">
+        <button class="btn primary" data-action="net-host">Создать комнату</button>
+        <div class="join-row">
+          <input id="net-code" class="text-input" maxlength="5" placeholder="Код комнаты" autocomplete="off" spellcheck="false">
+          <button class="btn" data-action="net-join">Войти</button>
+        </div>
+      </div>
+      <div id="net-room" class="hidden">
+        <p class="hint-text">Код комнаты</p>
+        <p id="net-code-big" class="score">-----</p>
+        <div class="join-row">
+          <input id="net-link" class="text-input" readonly>
+          <button class="btn" data-action="net-copy">Копировать</button>
+        </div>
+      </div>
+      <p id="net-status" class="hint-text"></p>
+      <button class="btn quiet" data-action="net-cancel">Назад</button>
+    </div>
+  </div>
+
   <div id="loading" class="screen" aria-live="polite"><div class="loading-box"><span class="spinner"></span><span id="loading-text">Собираем бойцов…</span></div></div>
 
   <div id="toast" class="toast">Качни мышь в сторону удара, ЛКМ — удар, ПКМ — блок, Q — захват цели, V — вид</div>
@@ -121,6 +146,7 @@
   <script src="lib/RenderPass.js"></script>
   <script src="lib/ShaderPass.js"></script>
   <script src="lib/UnrealBloomPass.js"></script>
+  <script src="lib/peerjs.min.js"></script>
 
   <script src="src/config.js"></script>
   <script src="src/utils.js"></script>
@@ -129,6 +155,8 @@
   <script src="src/fighter.js"></script>
   <script src="src/ai.js"></script>
   <script src="src/game.js"></script>
+  <script src="src/net.js"></script>
+  <script src="src/online.js"></script>
   <script src="src/audio.js"></script>
   <script src="src/input.js"></script>
   <script src="src/world.js"></script>
