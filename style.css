@@ -282,3 +282,24 @@ h1 .outline {
 .stat .bar s { position: absolute; left: 50%; top: -2px; bottom: -2px; width: 2px; background: rgba(255, 255, 255, 0.45); }
 .stat b { text-align: right; font-weight: 700; } .stat b.up { color: #5fe08a; } .stat b.down { color: #ff7a7a; }
 @media (max-width: 520px) { .weapon-grid { grid-template-columns: 1fr; } .stat { grid-template-columns: 96px 1fr 44px; } }
+
+.training-panel { max-height: 88vh; display: flex; flex-direction: column; gap: 12px; width: min(760px, 94vw); }
+.training-fields { overflow-y: auto; display: flex; flex-direction: column; gap: 14px; padding-right: 6px; }
+.training-fields h4 { font: 600 13px Unbounded, sans-serif; color: var(--ink); margin: 4px 0 0; }
+.training-fields select {
+  font: 600 14px Manrope, sans-serif; color: var(--ink); background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 8px; padding: 8px 10px; width: 100%;
+}
+.training-fields select option { background: #15162a; }
+.move-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 6px; }
+.move-grid button {
+  font: 600 13px Manrope, sans-serif; color: var(--ink); cursor: pointer; padding: 8px 10px; text-align: left;
+  background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14); border-radius: 8px;
+}
+.move-grid button:hover { border-color: var(--accent); }
+.training-actions { display: flex; gap: 10px; }
+.training-actions .btn { flex: 1; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 620px) { .two-col { grid-template-columns: 1fr; } }
+
+.two-col > div { display: flex; flex-direction: column; gap: 10px; }
