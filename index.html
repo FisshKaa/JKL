@@ -25,6 +25,7 @@
       <nav class="actions" id="main-actions">
         <button class="btn primary" data-action="vsbot">Бой с ботом</button>
         <button class="btn" data-action="online">Онлайн 1 на 1</button>
+        <button class="btn" data-action="training">Тренировка</button>
         <button class="btn" data-action="custom">Персонаж</button>
         <button class="btn quiet" data-action="controls">Управление и настройки</button>
       </nav>
@@ -129,6 +130,17 @@
     </div>
   </div>
 
+  <div id="training" class="screen modal" role="dialog" aria-label="Настройки тренировки">
+    <div class="panel wide training-panel">
+      <h2>Тренировка</h2>
+      <div id="training-fields" class="training-fields"></div>
+      <div class="training-actions">
+        <button class="btn primary" data-action="resume">Продолжить</button>
+        <button class="btn quiet" data-action="tomenu">Выйти в меню</button>
+      </div>
+    </div>
+  </div>
+
   <div id="result" class="screen modal" role="dialog" aria-label="Итог матча">
     <div class="panel narrow">
       <h2 id="result-title">Победа</h2>
@@ -209,6 +221,7 @@
   <script src="src/styles.js"></script>
   <script src="src/fighter.js"></script>
   <script src="src/ai.js"></script>
+  <script src="src/training.js"></script>
   <script src="src/game.js"></script>
   <script src="src/net.js"></script>
   <script src="src/online.js"></script>
