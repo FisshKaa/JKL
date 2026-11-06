@@ -189,6 +189,8 @@
       <p id="net-status" class="hint-text" aria-live="polite"></p>
       <details class="turn-box">
         <summary>Если не соединяется</summary>
+        <label class="setting-check"><input type="checkbox" id="relay-only"> Только через ретранслятор (TLS, порт 443)</label>
+        <p class="hint-text small">Помогает, если сеть режет прямые соединения — например, в России операторы блокируют STUN, на котором работают звонки и эта игра. Включите обоим и создайте комнату заново. Задержка станет чуть больше.</p>
         <p class="hint-text small">Обычно мешает строгий NAT (мобильный интернет, офисные сети). Тогда нужен свой TURN-ретранслятор: бесплатный доступ дают, например, Metered или Twilio. Вставьте данные сюда — их нужно указать обоим игрокам.</p>
         <input id="turn-urls" class="text-input" placeholder="turn:адрес:3478, turns:адрес:443" autocomplete="off" spellcheck="false">
         <div class="join-row">
